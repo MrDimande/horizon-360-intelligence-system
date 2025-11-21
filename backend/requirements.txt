@@ -1,0 +1,44 @@
+# backend/requirements.txt
+cat > requirements.txt << 'EOF'
+# Framework Web
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# Banco de Dados
+sqlalchemy==2.0.25
+psycopg2-binary==2.9.9
+alembic==1.13.1
+
+# Autenticação e Segurança
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# IA e Processamento
+openai==1.10.0
+langchain==0.1.4
+tiktoken==0.5.2
+
+# Utilitários
+python-dotenv==1.0.0
+httpx==0.26.0
+pandas==2.1.4
+numpy==1.26.3
+
+# Visualização e Relatórios
+plotly==5.18.0
+reportlab==4.0.8
+openpyxl==3.1.2
+
+# Testing
+pytest==7.4.4
+pytest-asyncio==0.23.3
+pytest-cov==4.1.0
+
+# Desenvolvimento
+black==23.12.1
+flake8==7.0.0
+mypy==1.8.0
+EOF

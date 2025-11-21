@@ -1,0 +1,42 @@
+{
+  "name": "horizon-360-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:generate": "prisma generate",
+    "prisma:seed": "prisma db seed"
+  },
+  "dependencies": {
+    "@prisma/client": "^7.0.0",
+    "@prisma/extension-accelerate": "^2.0.2",
+    "@tailwindcss/postcss": "^4.1.17",
+    "ai": "^5.0.98",
+    "dotenv": "^17.2.3",
+    "lucide-react": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "recharts": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "autoprefixer": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "postcss": "latest",
+    "prisma": "^7.0.0",
+    "tailwindcss": "latest",
+    "ts-node": "latest",
+    "typescript": "latest"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  }
+}
