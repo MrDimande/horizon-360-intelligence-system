@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from .config import settings
 from .database import engine, Base
 
+from .routers import employee_router, financial_record_router, performance_review_router, payroll_router, audit_log_router, department_router, notification_router, auth_router
+
 # Criar tabelas
 Base.metadata.create_all(bind=engine)
 
@@ -37,8 +39,13 @@ async def root():
 async def health_check():
     return {"status": "healthy"}
 
-# Importar rotas (adicionar depois)
-# from .routes import hr, finance, ai_chat
-# app.include_router(hr.router, prefix="/api/hr", tags=["RH"])
-# app.include_router(finance.router, prefix="/api/finance", tags=["Finanças"])
-# app.include_router(ai_chat.router, prefix="/api/chat", tags=["IA Chat"])
+app.include_router(employee_router)
+app.include_router(financial_record_router)
+app.include_router(performance_review_router)
+app.include_router(payroll_router)
+app.include_router(audit_log_router)
+app.include_router(department_router)
+app.include_router(notification_router)
+app.include_router(auth_router)
+
+

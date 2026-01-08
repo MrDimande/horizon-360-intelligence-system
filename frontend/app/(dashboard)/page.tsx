@@ -1,10 +1,11 @@
-import { Users, Banknote, ArrowDownCircle, AlertTriangle } from "lucide-react";
+import { AlertTriangle, ArrowDownCircle, Banknote, Users } from "lucide-react";
+import { AiInsightPanel } from "../../components/dashboard/AiInsightPanel";
+import {
+    CashFlowChart,
+    type CashFlowPoint,
+} from "../../components/dashboard/CashFlowChart";
 import { KpiCard } from "../../components/dashboard/KpiCard";
 import { RecentActivity } from "../../components/dashboard/RecentActivity";
-import {
-  CashFlowChart,
-  type CashFlowPoint,
-} from "../../components/dashboard/CashFlowChart";
 import { prisma } from "../../lib/prisma";
 
 type DashboardKpis = {
@@ -165,52 +166,69 @@ export default async function DashboardPage() {
 
   return (
     <section className="flex flex-col gap-6">
-      <header className="space-y-2">
-        <p className="text-xs font-medium uppercase tracking-[0.2em] text-sky-500">
-          Horizon 360° Intelligence System
+      <header className="space-y-1 py-4">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-500">
+          Horizon 360°
         </p>
-        <h1 className="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">
-          Visão integrada de Pessoas e Finanças
+        <h1 className="text-4xl font-black tracking-tight text-transparent bg-clip-text bg-linear-to-r from-white via-slate-200 to-slate-400 drop-shadow-sm md:text-5xl">
+          Visão Geral
         </h1>
-        <p className="max-w-2xl text-sm text-slate-500">
-          Combine dados de HCM, folha e fluxo de caixa com previsões de IA em um
-          painel único e acionável.
+        <p className="max-w-2xl text-sm font-medium text-slate-400">
+          Monitoramento em tempo real de pessoas, finanças e performance.
         </p>
       </header>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+      {/* KPI Section */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         <KpiCard
-          title="Total de funcionários"
+          title="Funcionários"
           value={kpis.totalEmployees.toString()}
           icon={Users}
           trend={{ value: 4.2 }}
+          color="violet"
         />
         <KpiCard
-          title="Receita mensal"
+          title="Receita Mensal"
           value={formatCurrency(kpis.monthlyIncome)}
           icon={Banknote}
           trend={{ value: 8.1 }}
+          color="cyan" 
         />
         <KpiCard
-          title="Despesa mensal"
+          title="Despesa Mensal"
           value={formatCurrency(kpis.monthlyExpense)}
           icon={ArrowDownCircle}
           trend={{ value: -3.4 }}
+          color="orange" // Will render as Blue per new KpiCard styles
         />
         <KpiCard
-          title="Risco de retenção (IA)"
+          title="Risco de Saída"
           value={`${kpis.retentionRisk.toFixed(1)}%`}
           icon={AlertTriangle}
           trend={{ value: -1.2 }}
+          color="pink" // Will render as Sky per new KpiCard styles
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <CashFlowChart data={cashflow} />
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        {/* Main Chart Section */}
+        <div className="lg:col-span-2 space-y-6">
+           <CashFlowChart data={cashflow} />
+
+           {/* AI Insights Section */}
+           <div className="rounded-3xl border border-dashed border-slate-700/50 p-1">
+             <div className="rounded-[20px] bg-slate-900/50 p-6">
+                <AiInsightPanel />
+             </div>
+           </div>
         </div>
-        <RecentActivity items={activities} />
+
+        {/* Side Panel / Activity */}
+        <div className="space-y-6">
+           <RecentActivity items={activities} />
+        </div>
       </div>
     </section>
   );
 }
+

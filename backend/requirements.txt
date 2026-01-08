@@ -1,5 +1,4 @@
 # backend/requirements.txt
-cat > requirements.txt << 'EOF'
 # Framework Web
 fastapi==0.109.0
 uvicorn[standard]==0.27.0
@@ -8,7 +7,7 @@ pydantic-settings==2.1.0
 
 # Banco de Dados
 sqlalchemy==2.0.25
-psycopg2-binary==2.9.9
+# psycopg2-binary==2.9.9
 alembic==1.13.1
 
 # Autenticação e Segurança
@@ -41,4 +40,3 @@ pytest-cov==4.1.0
 black==23.12.1
 flake8==7.0.0
 mypy==1.8.0
-EOF

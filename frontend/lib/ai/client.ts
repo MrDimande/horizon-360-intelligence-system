@@ -1,10 +1,4 @@
 "use client";
 
-import { useChat, type UseChatOptions } from "ai/react";
-
-export function useHorizonChat(options?: UseChatOptions) {
-  return useChat({
-    api: "/api/ai/chat",
-    ...options,
-  });
-}
+// Re-export the useChat hook from @ai-sdk/react for client components
+export { useChat } from "@ai-sdk/react";

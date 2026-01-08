@@ -40,10 +40,12 @@ model Employee {
   position   String
   hireDate   DateTime
   isActive   Boolean  @default(true)
+  baseSalary Decimal? @db.Decimal(14, 2)
 
-  financialRecords FinancialRecord[]
-
-  insights AiInsight[] @relation("EmployeeInsights")
+  financialRecords   FinancialRecord[]
+  insights           AiInsight[]         @relation("EmployeeInsights")
+  performanceReviews PerformanceReview[]
+  payrolls           Payroll[]
 
   @@index([department])
   @@index([email])
@@ -92,4 +94,130 @@ model AiInsight {
   @@unique([scope, key])
   @@index([employeeId])
   @@index([financialRecordId])
+}
+
+// ============= Performance Evaluation Module =============
+
+enum ReviewStatus {
+  DRAFT
+  SUBMITTED
+  APPROVED
+}
+
+model PerformanceReview {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id])
+
+  reviewDate   DateTime
+  period       String       // e.g., "Q4-2024"
+  reviewer     String
+  rating       Int          // 1-5
+  strengths    String?
+  improvements String?
+  goals        String?
+  status       ReviewStatus @default(DRAFT)
+
+  @@index([employeeId])
+  @@index([period])
+}
+
+// ============= Payroll / Folha Salarial Module =============
+
+enum PayrollStatus {
+  DRAFT
+  PROCESSED
+  PAID
+}
+
+enum PayrollItemType {
+  SALARY
+  BONUS
+  ALLOWANCE
+  DEDUCTION
+  TAX
+}
+
+model Payroll {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  employeeId      String
+  employee        Employee      @relation(fields: [employeeId], references: [id])
+
+  period          String        // "2024-10"
+  grossSalary     Decimal       @db.Decimal(14, 2)
+  netSalary       Decimal       @db.Decimal(14, 2)
+  totalDeductions Decimal       @db.Decimal(14, 2)
+  status          PayrollStatus @default(DRAFT)
+
+  items PayrollItem[]
+
+  @@unique([employeeId, period])
+  @@index([period])
+}
+
+model PayrollItem {
+  id        String   @id @default(cuid())
+  payrollId String
+  payroll   Payroll  @relation(fields: [payrollId], references: [id], onDelete: Cascade)
+
+  type        PayrollItemType
+  description String
+  amount      Decimal         @db.Decimal(14, 2)
+}
+
+// ============= Audit Log =============
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+}
+
+model AuditLog {
+  id        String      @id @default(cuid())
+  createdAt DateTime    @default(now())
+
+  entityType  String      // "EMPLOYEE", "PAYROLL", etc.
+  entityId    String
+  action      AuditAction
+  changes     Json?       // {"field": {"old": x, "new": y}}
+  performedBy String      @default("system")
+  description String?
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}
+
+// ============= Department =============
+
+model Department {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name        String
+  code        String  @unique
+  description String?
+
+  // Hierarchy
+  parentId String?
+  parent   Department?  @relation("DeptHierarchy", fields: [parentId], references: [id])
+  children Department[] @relation("DeptHierarchy")
+
+  // Manager (optional)
+  managerId String?
+
+  // Budget
+  budget Decimal? @db.Decimal(14, 2)
+
+  isActive Boolean @default(true)
+
+  @@index([code])
+  @@index([parentId])
 }

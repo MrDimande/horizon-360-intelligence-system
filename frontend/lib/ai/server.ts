@@ -1,4 +1,4 @@
-import { streamText, type LanguageModelV1 } from "ai";
+import { streamText, type LanguageModel } from "ai";
 
 type InsightContext = {
   topic: "hcm" | "finance" | "mixed";
@@ -6,7 +6,7 @@ type InsightContext = {
 };
 
 export async function streamInsightText(
-  model: LanguageModelV1,
+  model: LanguageModel,
   prompt: string,
   context?: InsightContext
 ) {

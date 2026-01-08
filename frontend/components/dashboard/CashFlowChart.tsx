@@ -1,13 +1,13 @@
 "use client";
 
 import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
+    Area,
+    AreaChart,
+    CartesianGrid,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis
 } from "recharts";
 
 export type CashFlowPoint = {
@@ -33,50 +33,78 @@ export function CashFlowChart({ data }: CashFlowChartProps) {
   const chartData = data && data.length > 0 ? data : defaultData;
 
   return (
-    <section className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-      <header className="mb-3 flex items-center justify-between">
+    <section className="flex h-full flex-col rounded-3xl bg-[#151921] p-6 shadow-xl">
+      <header className="mb-6 flex items-center justify-between">
         <div>
-          <h2 className="text-sm font-semibold text-slate-900">
+          <h2 className="text-lg font-bold text-white tracking-tight">
             Fluxo de caixa
           </h2>
-          <p className="text-xs text-slate-500">
-            Entradas e sadas agregadas no perido recente.
+          <p className="text-xs text-slate-400 mt-1">
+            Entradas e saídas agregadas no período recente.
           </p>
         </div>
+        
+        <div className="flex gap-4">
+             <div className="flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full bg-linear-to-r from-violet-500 to-indigo-500 shadow-[0_0_8px_rgba(139,92,246,0.5)]"></div>
+                <span className="text-xs font-medium text-slate-400">Entrada</span>
+             </div>
+             <div className="flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full bg-linear-to-r from-sky-400 to-blue-500 shadow-[0_0_8px_rgba(14,165,233,0.5)]"></div>
+                <span className="text-xs font-medium text-slate-400">Saída</span>
+             </div>
+        </div>
       </header>
-      <div className="mt-1 h-64 w-full">
+      <div className="mt-1 h-72 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={chartData}
             margin={{ left: 0, right: 0, top: 10, bottom: 0 }}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+            <defs>
+              <linearGradient id="incomeGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.4}/>
+                <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
+              </linearGradient>
+              <linearGradient id="expenseGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#0ea5e9" stopOpacity={0.4}/>
+                <stop offset="95%" stopColor="#0ea5e9" stopOpacity={0}/>
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
             <XAxis
               dataKey="date"
               tickLine={false}
-              tickMargin={8}
-              stroke="#9ca3af"
+              axisLine={false}
+              tickMargin={12}
+              stroke="#64748b"
+              fontSize={12}
             />
             <YAxis
               tickLine={false}
-              tickMargin={8}
-              stroke="#9ca3af"
+              axisLine={false}
+              tickMargin={12}
+              stroke="#64748b"
+              fontSize={12}
               tickFormatter={(value) => `${Math.round(value / 1000)}k`}
             />
             <Tooltip
               contentStyle={{
-                borderRadius: 10,
-                borderColor: "#e5e7eb",
-                boxShadow: "0 10px 25px rgba(15, 23, 42, 0.08)",
+                backgroundColor: "#0f172a",
+                borderRadius: 12,
+                border: "1px solid #1e293b",
+                boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+                padding: "12px",
               }}
-              labelStyle={{ fontSize: 12, color: "#6b7280" }}
+              labelStyle={{ fontSize: 12, color: "#94a3b8", marginBottom: "8px" }}
+              itemStyle={{ fontSize: 12, fontWeight: 500 }}
               formatter={(value: unknown, name: string) => {
                 const label =
                   name === "income"
                     ? "Entrada"
                     : name === "expense"
-                    ? "Sada"
-                    : "Lduino";
+                    ? "Saída"
+                    : "Líquido";
                 const numeric =
                   typeof value === "number" ? value : Number(value ?? 0);
                 const formatted = new Intl.NumberFormat("pt-BR", {
@@ -90,17 +118,17 @@ export function CashFlowChart({ data }: CashFlowChartProps) {
             <Area
               type="monotone"
               dataKey="income"
-              stroke="#22c55e"
-              fill="#22c55e20"
-              strokeWidth={2}
+              stroke="#8b5cf6"
+              fill="url(#incomeGradient)"
+              strokeWidth={3}
               name="income"
             />
             <Area
               type="monotone"
               dataKey="expense"
-              stroke="#f97316"
-              fill="#f9731620"
-              strokeWidth={2}
+              stroke="#0ea5e9"
+              fill="url(#expenseGradient)"
+              strokeWidth={3}
               name="expense"
             />
           </AreaChart>

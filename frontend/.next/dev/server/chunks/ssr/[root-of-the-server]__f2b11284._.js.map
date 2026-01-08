@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 18, "column": 0}, "map": {"version":3,"sources":["file:///C:/horizon360/frontend/app/%28dashboard%29/hcm/page.tsx"],"sourcesContent":["export default function HcmPage() {\r\n  return (\r\n    <section className=\"space-y-4\">\r\n      <header className=\"space-y-1\">\r\n        <h1 className=\"text-2xl font-semibold tracking-tight text-slate-50\">\r\n          HCM e Performance\r\n        </h1>\r\n        <p className=\"max-w-2xl text-sm text-slate-400\">\r\n          Acompanhe headcount, engajamento e métricas de performance em tempo\r\n          real.\r\n        </p>\r\n      </header>\r\n      <div className=\"rounded-2xl border border-dashed border-slate-800 bg-slate-900/40 p-6 text-sm text-slate-400\">\r\n        Em breve: dashboards de clima, trilhas de carreira e insights de IA por\r\n        colaborador.\r\n      </div>\r\n    </section>\r\n  );\r\n}\r\n"],"names":[],"mappings":";;;;;;AAAe,SAAS;IACtB,qBACE,8OAAC;QAAQ,WAAU;;0BACjB,8OAAC;gBAAO,WAAU;;kCAChB,8OAAC;wBAAG,WAAU;kCAAsD;;;;;;kCAGpE,8OAAC;wBAAE,WAAU;kCAAmC;;;;;;;;;;;;0BAKlD,8OAAC;gBAAI,WAAU;0BAA+F;;;;;;;;;;;;AAMpH"}}]
-}
